@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widestride — Account Opening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#0CD697; --brand-deep:#07A273; --brand-tint:#E7FBF4; --brand-soft:#C2F5E5;
+  --ink:#0B1F1A; --ink-2:#23332F; --muted:#5E716B; --faint:#8FA19B;
+  --line:#E2EBE8; --bg:#F3F7F5; --card:#FFFFFF; --err:#D23A2E; --err-tint:#FDECEA;
+  --radius:16px; --shadow:0 1px 2px rgba(11,31,26,.04),0 12px 32px -12px rgba(11,31,26,.12);
+  --serif:'Fraunces',Georgia,serif; --sans:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;background:#fff;border-bottom:1px solid var(--line)}
+.hero-inner{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:28px 24px 40px}
+.hero img.logo{height:58px;display:block}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.2vw,44px);line-height:1.08;letter-spacing:-.02em;margin:26px 0 8px;max-width:640px}
+.hero h1 em{font-style:normal;color:var(--brand-deep)}
+.hero p{margin:0;color:var(--muted);max-width:560px}
+.hero .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--brand-tint);color:#06684B;font-size:13px;font-weight:600}
+.tag svg{width:14px;height:14px}
+.hero-art{position:absolute;right:0;bottom:0;width:min(560px,60vw);height:100%;pointer-events:none}
+@media (max-width:720px){.hero-art{display:none}.hero-inner{padding-bottom:28px}}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:start}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;padding:16px 16px 60px;gap:16px}}
+
+/* ---------- Stepper ---------- */
+.stepper{position:sticky;top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 14px;box-shadow:var(--shadow)}
+.stepper h3{margin:2px 8px 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.stepper ol{list-style:none;margin:0;padding:0}
+.stepper li{display:flex;align-items:center;gap:12px;padding:9px 8px;border-radius:10px;cursor:default;color:var(--muted);position:relative}
+.stepper li.done{cursor:pointer;color:var(--ink-2)}
+.stepper li.done:hover{background:var(--bg)}
+.stepper li.current{background:var(--brand-tint);color:var(--ink);font-weight:600}
+.stepper .dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--muted)}
+.stepper li.current .dot{background:var(--ink);border-color:var(--ink);color:#fff}
+.stepper li.done .dot{background:var(--brand);border-color:var(--brand);color:var(--ink)}
+.stepper .code{margin-left:auto;font-size:11px;font-weight:700;color:var(--faint)}
+.stepper .help{margin:14px 8px 2px;padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted)}
+.mobile-progress{display:none}
+@media (max-width:900px){
+  .stepper{display:none}
+  .mobile-progress{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow)}
+  .mobile-progress .row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px}
+  .mobile-progress b{color:var(--ink)}
+}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-deep));border-radius:6px;transition:width .35s ease}
+
+/* ---------- Card / steps ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.card-head{padding:22px 28px 0}
+.card-head .bar{margin-bottom:22px}
+.step{padding:0 28px 8px;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (max-width:600px){.card-head{padding:18px 18px 0}.step{padding:0 18px 8px}}
+.step-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px}
+.step-code{flex:none;width:44px;height:44px;border-radius:12px;background:var(--ink);color:var(--brand);display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:18px}
+.step-head h2{font-family:var(--serif);font-weight:600;font-size:24px;letter-spacing:-.01em;margin:0 0 2px;line-height:1.2}
+.step-head p{margin:0;color:var(--muted);font-size:14px}
+.group-title{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:26px 0 12px;display:flex;align-items:center;gap:10px}
+.group-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ---------- Fields ---------- */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
+.grid .full{grid-column:1/-1}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.field label.lbl{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px;color:var(--ink-2)}
+.field label.lbl .req{color:var(--brand-deep);margin-left:2px}
+.field .hint{display:block;font-size:12.5px;color:var(--faint);margin-top:5px}
+.inp{width:100%;height:46px;padding:0 14px;border:1.5px solid var(--line);border-radius:11px;background:#fff;transition:border-color .15s,box-shadow .15s;outline:none}
+textarea.inp{height:auto;min-height:84px;padding:12px 14px;resize:vertical}
+select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235E716B' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.inp:hover{border-color:#CBD8D4}
+.inp:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(12,214,151,.16)}
+.inp::placeholder{color:#A8B6B1}
+.prefix{position:relative}
+.prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.prefix .inp{padding-left:32px}
+.field .err{display:none;font-size:12.5px;color:var(--err);margin-top:6px;font-weight:500}
+.field.invalid .inp{border-color:var(--err);background:#FFFBFA}
+.field.invalid .err{display:block}
+.field.invalid .chips .chip span{border-color:#F2B8B2}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:9px 16px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-weight:500;font-size:14px;background:#fff;transition:all .15s;user-select:none}
+.chip span::before{content:"";width:16px;height:16px;border-radius:50%;border:1.5px solid #B9C7C2;flex:none;transition:all .15s}
+.chip input[type=checkbox]+span::before{border-radius:5px}
+.chip span:hover{border-color:#B9C7C2}
+.chip input:checked+span{border-color:var(--brand);background:var(--brand-tint);color:#054D38;font-weight:600}
+.chip input:checked+span::before{border-color:var(--brand-deep);background:var(--brand-deep);box-shadow:inset 0 0 0 3px #fff}
+.chip input[type=checkbox]:checked+span::before{box-shadow:none;background:var(--brand-deep) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center no-repeat}
+.chip input:focus-visible+span{box-shadow:0 0 0 4px rgba(12,214,151,.2)}
+.other{margin-top:10px}
+
+/* account type cards */
+.types{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:1100px){.types{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.types{grid-template-columns:1fr}}
+.doc{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px dashed #BFCDC8;border-radius:12px;background:var(--bg);cursor:pointer;transition:all .15s}
+.doc:hover,.doc.drag{border-color:var(--brand);background:var(--brand-tint)}
+.doc svg{flex:none;width:26px;height:26px;stroke:var(--muted);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.doc b{display:block;font-size:14px}.doc small{color:var(--faint);font-size:12px}
+.field.invalid .doc{border-color:var(--err);background:var(--err-tint)}
+.doc-files{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.doc-files span{display:inline-flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;border-radius:999px;background:var(--brand-tint);color:#06684B;font-size:12.5px;font-weight:600;max-width:100%}
+.doc-files span em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.doc-files button{border:0;background:#fff;border-radius:50%;width:20px;height:20px;cursor:pointer;color:var(--muted);line-height:1;padding:0}
+.sigtable{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:13.5px}
+.sigtable th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:6px 8px;border-bottom:1px solid var(--line)}
+.sigtable td{padding:8px;border-bottom:1px solid #F0F4F2;vertical-align:middle}
+.sigtable img{height:44px;max-width:160px;object-fit:contain}
+.copy-row{display:flex;justify-content:flex-end;margin:-8px 0 14px}
+.type{position:relative;cursor:pointer}
+.type input{position:absolute;opacity:0}
+.type .box{height:100%;border:1.5px solid var(--line);border-radius:14px;padding:20px 18px;transition:all .18s;background:#fff}
+.type .box:hover{border-color:#B9C7C2;transform:translateY(-2px)}
+.type .ico{width:46px;height:46px;border-radius:12px;background:var(--bg);display:grid;place-items:center;margin-bottom:14px;transition:all .18s}
+.type .ico svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.type b{display:block;font-size:16px;margin-bottom:4px}
+.type small{color:var(--muted);font-size:13px;line-height:1.45;display:block}
+.type input:checked+.box{border-color:var(--brand);background:linear-gradient(180deg,var(--brand-tint),#fff 70%);box-shadow:0 0 0 4px rgba(12,214,151,.14)}
+.type input:checked+.box .ico{background:var(--ink)}
+.type input:checked+.box .ico svg{stroke:var(--brand)}
+.type input:focus-visible+.box{box-shadow:0 0 0 4px rgba(12,214,151,.25)}
+.type .check{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);background:#fff;transition:all .15s}
+.type input:checked~.check{background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9'%3E%3Cpath d='M1 4.5l3.5 3.5L11 1' fill='none' stroke='%230B1F1A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center no-repeat;border-color:var(--brand)}
+
+/* photo & signature */
+.media-row{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:start}
+@media (max-width:600px){.media-row{grid-template-columns:1fr}}
+.photo{position:relative;width:180px;aspect-ratio:3/4;border:1.5px dashed #BFCDC8;border-radius:14px;background:var(--bg);display:grid;place-items:center;text-align:center;cursor:pointer;overflow:hidden;transition:all .15s}
+.photo:hover,.photo.drag{border-color:var(--brand);background:var(--brand-tint)}
+.photo svg{width:34px;height:34px;stroke:var(--muted);fill:none;stroke-width:1.5}
+.photo .ph-t{font-size:13px;font-weight:600;margin-top:8px}
+.photo .ph-s{font-size:11.5px;color:var(--faint);padding:0 12px}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo .swap{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(11,31,26,.8);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.field.invalid .photo{border-color:var(--err);background:var(--err-tint)}
+.sig{border:1.5px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.sig canvas{display:block;width:100%;height:170px;touch-action:none;cursor:crosshair;background:linear-gradient(180deg,transparent 0 128px,#E2EBE8 128px 129px,transparent 129px)}
+.sig .sig-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-top:1px solid var(--line);background:var(--bg);font-size:12.5px;color:var(--muted);gap:8px;flex-wrap:wrap}
+.sig .sig-bar .acts{display:flex;gap:6px}
+.field.invalid .sig{border-color:var(--err)}
+.link-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.link-btn:hover{border-color:var(--brand);color:var(--brand-deep)}
+
+/* callouts */
+.note{display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:var(--brand-tint);color:#0A4F3A;font-size:13.5px;margin:4px 0 20px}
+.note svg{flex:none;width:18px;height:18px;margin-top:2px;stroke:currentColor;fill:none;stroke-width:2}
+.note.plain{background:var(--bg);color:var(--ink-2)}
+.legal{border:1px solid var(--line);border-radius:12px;background:#FBFDFC;max-height:300px;overflow:auto;padding:4px 20px 12px;font-size:13.5px;color:var(--ink-2)}
+.legal h4{font-size:13px;margin:16px 0 4px;color:var(--ink)}
+.legal p,.legal li{margin:0 0 8px}
+.legal ol{padding-left:20px}
+details.def{border:1px solid var(--line);border-radius:12px;background:#FBFDFC;margin-top:12px}
+details.def summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:13.5px;list-style:none;display:flex;justify-content:space-between}
+details.def summary::after{content:"+";font-size:18px;line-height:1;color:var(--muted)}
+details.def[open] summary::after{content:"–"}
+details.def .legal{border:0;border-top:1px solid var(--line);border-radius:0 0 12px 12px;max-height:none}
+.indemnity{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:linear-gradient(180deg,#FBFDFC,#fff);font-size:14px;color:var(--ink-2)}
+.indemnity p{margin:0 0 10px}
+.indemnity .fill{display:inline-block;min-width:120px;padding:0 6px;border-bottom:1.5px solid var(--brand);font-weight:700;color:var(--ink)}
+.consent{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;background:#fff;transition:all .15s;font-size:14px}
+.consent:hover{border-color:#B9C7C2}
+.consent input{margin-top:3px;width:18px;height:18px;accent-color:var(--brand-deep);flex:none}
+.field.invalid .consent{border-color:var(--err);background:var(--err-tint)}
+.consents{display:grid;gap:10px}
+.kin{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+.kin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.kin-head b{font-size:15px}
+.pill{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.pill.req{background:var(--brand-tint);color:#06684B}
+
+/* review */
+.rv{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.rv-h{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.rv-h b{font-size:14px}
+.rv-h b i{font-style:normal;color:var(--brand-deep);margin-right:6px}
+.rv dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+@media (max-width:600px){.rv dl{grid-template-columns:1fr}}
+.rv dl div{padding:10px 16px;border-bottom:1px solid #F0F4F2}
+.rv dt{font-size:12px;color:var(--faint);font-weight:600}
+.rv dd{margin:2px 0 0;font-size:14px;font-weight:500;word-break:break-word}
+.rv dd img{height:64px;border-radius:6px;border:1px solid var(--line);background:#fff}
+
+/* footer nav */
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 28px;border-top:1px solid var(--line);background:#FBFDFC;margin-top:24px}
+@media (max-width:600px){.nav{padding:16px 18px}.nav .save{display:none}}
+.btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;font-weight:700;font-size:15px;transition:all .15s}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#15352D}
+.btn-primary.go{background:var(--brand);color:var(--ink)}
+.btn-primary.go:hover{background:#0BC78C}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--ink-2)}
+.btn-ghost:hover{border-color:#B9C7C2}
+.btn[disabled]{opacity:.6;cursor:progress}
+.spin{width:18px;height:18px;border:2.5px solid rgba(11,31,26,.25);border-top-color:var(--ink);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.nav .save{font-size:12.5px;color:var(--faint)}
+
+/* success */
+.done{padding:56px 28px;text-align:center}
+.done .badge{width:84px;height:84px;border-radius:50%;background:var(--brand-tint);display:grid;place-items:center;margin:0 auto 22px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.5);opacity:0}}
+.done .badge svg{width:40px;height:40px;stroke:var(--brand-deep);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.done h2{font-family:var(--serif);font-size:30px;margin:0 0 8px}
+.done p{color:var(--muted);max-width:460px;margin:0 auto 22px}
+.ref{display:inline-flex;flex-direction:column;padding:16px 28px;border-radius:14px;background:var(--ink);color:#fff;margin-bottom:26px}
+.ref small{color:var(--brand);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.ref b{font-size:24px;letter-spacing:.04em;font-family:ui-monospace,Menlo,Consolas,monospace}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 12px 32px rgba(0,0,0,.25);transition:transform .3s ease,opacity .3s;opacity:0;visibility:hidden;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+.toast.bad{background:var(--err)}
+.foot{text-align:center;color:var(--faint);font-size:12.5px;padding:0 16px 32px}
+@media print{.stepper,.nav,.hero-art,.mobile-progress{display:none!important}.wrap{display:block}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="hero-art" viewBox="0 0 560 300" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+    <path d="M560 0 C 540 150 430 250 250 300 L560 300Z" fill="#E2EBE8"/>
+    <path d="M560 0 C 550 160 470 250 330 300 L560 300Z" fill="#0B1F1A"/>
+    <path d="M0 190 L560 300 L0 300Z" fill="#0CD697" opacity=".9"/>
+  </svg>
+  <div class="hero-inner">
+    <img class="logo" src="data:image/png;base64,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" alt="Widestride International Ltd">
+    <h1>Open your <em>investment account</em> in a few minutes.</h1>
+    <p>Individual, joint, minor and corporate accounts. Fields marked <b style="color:var(--brand-deep)">*</b> are compulsory. Have your ID, BVN and a passport photograph ready.</p>
+    <div class="tags">
+      <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure &amp; confidential</span>
+      <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>About 8 minutes</span>
+      <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>SEC-regulated</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+  <aside class="stepper" aria-label="Form progress">
+    <h3>Application</h3>
+    <ol id="stepList"></ol>
+    <div class="help">Need help? Speak to your Widestride relationship officer. Your information is protected under Nigeria's data protection laws.</div>
+  </aside>
+
+  <div>
+    <div class="mobile-progress" id="mProg">
+      <div class="row"><span id="mLabel"></span><b id="mPct"></b></div>
+      <div class="bar"><i id="mBar"></i></div>
+    </div>
+
+    <form class="card" id="form" novalidate autocomplete="on" style="margin-top:0">
+      <div class="card-head"><div class="bar"><i id="bar"></i></div></div>
+      <input type="text" name="website_hp" id="website_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+      <!-- STEP: account type -->
+      <section class="step" data-step="type">
+        <div class="step-head"><div class="step-code">01</div><div><h2>What type of account?</h2><p>Choose the account you'd like to open. The form adapts to your choice.</p></div></div>
+        <div class="field" data-name="accountType" data-req data-kind="radio" data-label="Account Type">
+          <div class="types">
+            <label class="type"><input type="radio" name="accountType" value="Individual Account"><div class="box"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div><b>Individual</b><small>An account in your own name, operated by you alone.</small></div><span class="check"></span></label>
+            <label class="type"><input type="radio" name="accountType" value="Joint Account"><div class="box"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="3"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M16 14.2c3.3.3 6 3 6 6.8"/></svg></div><b>Joint</b><small>Shared with a partner. Both holders provide details and sign.</small></div><span class="check"></span></label>
+            <label class="type"><input type="radio" name="accountType" value="Minor Account"><div class="box"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="6" r="3"/><circle cx="17" cy="11" r="2.4"/><path d="M2 21c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5"/><path d="M13.5 21c0-2.3 1.6-4.2 3.5-4.2s3.5 1.9 3.5 4.2"/></svg></div><b>Minor</b><small>For a child under 18, opened and operated by a parent or guardian.</small></div><span class="check"></span></label>
+            <label class="type"><input type="radio" name="accountType" value="Corporate Account"><div class="box"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10h1M14 10h1M9 14h1M14 14h1M10 21v-3h4v3"/></svg></div><b>Corporate</b><small>For companies, partnerships, sole proprietorships and NGOs.</small></div><span class="check"></span></label>
+          </div>
+          <small class="err">Please choose an account type to continue.</small>
+        </div>
+      </section>
+
+      <section class="step" data-step="personal" hidden></section>
+      <section class="step" data-step="minor" hidden></section>
+      <section class="step" data-step="joint" hidden></section>
+      <section class="step" data-step="employment" hidden></section>
+      <section class="step" data-step="product" hidden></section>
+      <section class="step" data-step="bank" hidden></section>
+      <section class="step" data-step="kin" hidden></section>
+      <section class="step" data-step="co_company" hidden></section>
+      <section class="step" data-step="co_turnover" hidden></section>
+      <section class="step" data-step="co_signatories" hidden></section>
+      <section class="step" data-step="co_contact" hidden></section>
+      <section class="step" data-step="co_resolution" hidden></section>
+      <section class="step" data-step="co_docs" hidden></section>
+      <section class="step" data-step="declare" hidden></section>
+      <section class="step" data-step="review" hidden>
+        <div class="step-head"><div class="step-code">✓</div><div><h2>Review your application</h2><p>Check every detail before you submit. Use <b>Edit</b> to make changes.</p></div></div>
+        <div id="reviewBody"></div>
+      </section>
+
+      <div class="nav" id="nav">
+        <button type="button" class="btn btn-ghost" id="backBtn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+        <span class="save" id="navInfo"></span>
+        <button type="button" class="btn btn-primary" id="nextBtn">Continue<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+
+      <div class="done" id="done" hidden>
+        <div class="badge"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2>Application submitted</h2>
+        <p id="doneMsg">Thank you. Your application has been received and will be reviewed by our team. A confirmation has been sent to your email.</p>
+        <div class="ref"><small>Your reference number</small><b id="refNo">—</b></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button type="button" class="btn btn-ghost" onclick="window.print()"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Print summary</button>
+          <button type="button" class="btn btn-primary go" onclick="location.reload()">Start a new application</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>
+<p class="foot">© WIDESTRIDE INTERNATIONAL LIMITED · RC 6973596 · Regulated by the Securities and Exchange Commission, Nigeria</p>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<datalist id="banks">
+  <option>Access Bank</option><option>Citibank Nigeria</option><option>Ecobank Nigeria</option><option>Fidelity Bank</option><option>First Bank of Nigeria</option><option>First City Monument Bank (FCMB)</option><option>Globus Bank</option><option>Guaranty Trust Bank (GTBank)</option><option>Jaiz Bank</option><option>Keystone Bank</option><option>Kuda Microfinance Bank</option><option>Lotus Bank</option><option>Moniepoint Microfinance Bank</option><option>OPay</option><option>Optimus Bank</option><option>PalmPay</option><option>Parallex Bank</option><option>Polaris Bank</option><option>PremiumTrust Bank</option><option>Providus Bank</option><option>Signature Bank</option><option>Stanbic IBTC Bank</option><option>Standard Chartered Bank</option><option>Sterling Bank</option><option>SunTrust Bank</option><option>TAJBank</option><option>Titan Trust Bank</option><option>Union Bank of Nigeria</option><option>United Bank for Africa (UBA)</option><option>Unity Bank</option><option>Wema Bank</option><option>Zenith Bank</option>
+</datalist>
+<datalist id="relations"><option>Spouse</option><option>Father</option><option>Mother</option><option>Son</option><option>Daughter</option><option>Brother</option><option>Sister</option><option>Relative</option><option>Friend</option></datalist>
+<datalist id="nations"><option>Nigerian</option><option>Ghanaian</option><option>British</option><option>American</option><option>Canadian</option><option>South African</option><option>Kenyan</option></datalist>
+
+<script>
+/* =========================================================
+   ▼▼▼ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW ▼▼▼
+   (Apps Script → Deploy → Manage deployments → copy "Web app URL";
+    it ends with /exec)
+   ========================================================= */
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxaeL2lPFaMRBM4LRXk_ngRil5wV8wwqkPkxy9wS-6jVtoeeX0DkljXD-ACV8vhkk21/exec';
+/* ▲▲▲ ------------------------------------------------ ▲▲▲ */
+
+/* =========================================================
+   Small template helpers
+   ========================================================= */
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const REQ = '<span class="req">*</span>';
+
+function F(name, label, o = {}) {
+  const type = o.type || 'text';
+  const attrs = [
+    `id="${name}"`, `name="${name}"`, `class="inp"`,
+    o.ph ? `placeholder="${esc(o.ph)}"` : '',
+    o.max ? `maxlength="${o.max}"` : '',
+    o.im ? `inputmode="${o.im}"` : '',
+    o.ac ? `autocomplete="${o.ac}"` : '',
+    o.list ? `list="${o.list}"` : ''
+  ].join(' ');
+  let control = type === 'textarea' ? `<textarea ${attrs} rows="3"></textarea>`
+    : type === 'select' ? `<select ${attrs}><option value="">Select…</option>${o.opts.map(x => `<option>${esc(x)}</option>`).join('')}</select>`
+    : `<input type="${type}" ${attrs}>`;
+  if (o.prefix) control = `<div class="prefix"><span>${o.prefix}</span>${control}</div>`;
+  return `<div class="field ${o.full ? 'full' : ''}" data-name="${name}" data-label="${esc(o.rl || label)}" ${o.req ? 'data-req' : ''} ${o.v ? `data-v="${o.v}"` : ''} ${o.when ? `data-when="${o.when}"` : ''} ${o.when ? 'hidden' : ''}>
+    <label class="lbl" for="${name}">${label}${o.req ? REQ : ''}</label>${control}
+    ${o.hint ? `<small class="hint">${o.hint}</small>` : ''}<small class="err"></small></div>`;
+}
+
+function C(name, label, opts, o = {}) {
+  const t = o.multi ? 'checkbox' : 'radio';
+  const other = o.other ? `<div class="other" data-when="${name}=${o.other}" hidden><input class="inp" name="${name}__other" placeholder="${esc(o.otherPh || 'Please specify')}"></div>` : '';
+  return `<div class="field ${o.full === false ? '' : 'full'}" data-name="${name}" data-label="${esc(o.rl || label)}" data-kind="${o.multi ? 'multi' : 'radio'}" ${o.req ? 'data-req' : ''} ${o.when ? `data-when="${o.when}" hidden` : ''}>
+    <label class="lbl">${label}${o.req ? REQ : ''}</label>
+    <div class="chips">${opts.map(v => `<label class="chip"><input type="${t}" name="${name}" value="${esc(v)}"><span>${esc(v)}</span></label>`).join('')}</div>
+    ${other}${o.hint ? `<small class="hint">${o.hint}</small>` : ''}<small class="err"></small></div>`;
+}
+
+function PHOTO(name, label, o = {}) {
+  return `<div class="field" data-name="${name}" data-label="${esc(label)}" data-kind="photo" ${o.req ? 'data-req' : ''}>
+    <label class="lbl">${label}${o.req ? REQ : ''}</label>
+    <div class="photo" data-photo="${name}" tabindex="0" role="button" aria-label="Upload ${esc(label)}">
+      <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+      <div class="ph-t">Upload photo</div><div class="ph-s">JPG or PNG · tap or drag here</div></div>
+    </div>
+    <input type="file" accept="image/*" hidden data-photo-input="${name}">
+    <small class="err"></small></div>`;
+}
+
+function SIG(name, label, o = {}) {
+  return `<div class="field full" data-name="${name}" data-label="${esc(label)}" data-kind="sig" ${o.req ? 'data-req' : ''} ${o.when ? `data-when="${o.when}" hidden` : ''}>
+    <label class="lbl">${label}${o.req ? REQ : ''}</label>
+    <div class="sig"><canvas data-sig="${name}"></canvas>
+      <div class="sig-bar"><span>Sign above with your finger or mouse</span>
+        <span class="acts"><button type="button" class="link-btn" data-sig-upload="${name}">Upload image</button><button type="button" class="link-btn" data-sig-clear="${name}">Clear</button></span></div></div>
+    <input type="file" accept="image/*" hidden data-sig-input="${name}">
+    <small class="err"></small></div>`;
+}
+
+const head = (code, title, sub) => `<div class="step-head"><div class="step-code">${code}</div><div><h2>${title}</h2><p>${sub}</p></div></div>`;
+const G = t => `<div class="group-title">${t}</div>`;
+const INFO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>';
+
+const TITLES = ['Mr', 'Mrs', 'Miss', 'Dr', 'Others'];
+const IDS = ['International Passport', "Driver's Licence", 'National Identity Card (NIN)', "Voter's Card"];
+
+function person(p, who) {
+  const n = k => p + k;
+  const joint = p === 'j_';
+  return `
+    <div class="media-row">
+      ${PHOTO(n('photo'), 'Passport photograph', { req: true })}
+      <div class="grid">
+        ${C(n('title'), 'Title', TITLES, { other: 'Others', otherPh: 'e.g. Prof, Chief, Alhaji' })}
+        ${F(n('surname'), 'Surname', { req: true, ac: joint ? 'off' : 'family-name' })}
+        ${F(n('firstName'), 'First name', { req: true, ac: joint ? 'off' : 'given-name' })}
+      </div>
+    </div>
+    <div class="grid" style="margin-top:16px">
+      ${F(n('otherNames'), 'Other names', { ac: 'off' })}
+      ${C(n('gender'), 'Gender', ['Male', 'Female'], { req: true, full: false })}
+      ${F(n('dob'), 'Date of birth', { type: 'date', req: true, v: 'adult' })}
+      ${F(n('nationality'), 'Nationality', { list: 'nations', ph: 'e.g. Nigerian' })}
+      ${F(n('address'), 'Residential address', { type: 'textarea', req: true, full: true, ph: 'House number, street, city, state' })}
+      ${F(n('phone'), 'Mobile phone number', { type: 'tel', req: true, v: 'phone', ph: '0803 000 0000', im: 'tel' })}
+      ${F(n('email'), 'Email address', { type: 'email', v: 'email', req: !joint, ph: 'name@example.com', hint: joint ? '' : 'We will use this email for statements and instructions.' })}
+      ${F(n('mothersMaiden'), "Mother's maiden name", { req: true, ac: 'off' })}
+      ${joint ? C(n('resident'), 'Resident in Nigeria?', ['Yes', 'No'], { full: false, rl: 'Resident Indicator' }) : ''}
+    </div>
+    ${G('Identification')}
+    <div class="grid">
+      ${F(n('idType'), 'ID type', { type: 'select', opts: IDS })}
+      ${F(n('idNumber'), 'ID number', { ac: 'off' })}
+    </div>
+    ${G('Politically exposed person')}
+    <div class="grid">
+      ${C(n('pep'), `Is ${who} a Politically Exposed Person?`, ['Yes', 'No'], { req: true, rl: 'Politically Exposed Person?', hint: 'See the definition on the Declarations step. Includes spouses and immediate family of such persons.' })}
+      ${F(n('pepDetails'), 'If yes, please provide details', { type: 'textarea', full: true, req: true, when: n('pep') + '=Yes', ph: 'Position held, organisation / country, period' })}
+    </div>`;
+}
+
+/* =========================================================
+   Build steps
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const sec = id => $(`section[data-step="${id}"]`);
+
+sec('personal').innerHTML = head('A', '<span id="aTitle">Personal details</span>', '<span id="aSub">Tell us about yourself, exactly as it appears on your ID.</span>') + person('', 'the applicant');
+
+sec('minor').innerHTML = head('A1', 'Minor details', 'Details of the child the account is being opened for.') + `
+  <div class="media-row">
+    ${PHOTO('minorPhoto', "Minor's passport photograph", { req: true })}
+    <div class="grid">
+      ${F('minorSurname', 'Surname', { req: true, ac: 'off', rl: 'Minor: Surname' })}
+      ${F('minorFirstName', 'First name', { req: true, ac: 'off', rl: 'Minor: First Name' })}
+      ${F('minorOtherNames', 'Other names', { ac: 'off', rl: 'Minor: Other Names' })}
+      ${F('minorDob', 'Date of birth', { type: 'date', req: true, v: 'minor', rl: 'Minor: Date of Birth' })}
+    </div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+    ${C('minorMandate', 'Signature mandate', ['Father to operate', 'Mother to operate', 'Father and Mother to operate', 'Either parent to operate', 'Guardian to operate', 'Others'], { req: true, other: 'Others', otherPh: 'Describe the signing rule', hint: 'Who is authorised to give instructions on this account?' })}
+  </div>`;
+
+sec('joint').innerHTML = head('A2', 'Joint account holder', 'Your partner on this account should provide their details below.') + person('j_', 'the joint holder') + `
+  ${G('Signing rule')}
+  <div class="grid">${C('j_mandate', 'Signature mandate for joint account', ['Both to sign', 'Either to sign', 'Principal holder only', 'Others'], { req: true, other: 'Others', otherPh: 'Describe the signing rule' })}</div>`;
+
+sec('employment').innerHTML = head('B', 'Employment & purpose', 'Helps us confirm the source of your investment in line with regulation.') + `
+  <div class="grid">
+    ${C('employmentStatus', 'Employment status', ['Employed', 'Self Employed', 'Retired', 'Others'], { req: true, other: 'Others', otherPh: 'e.g. Student, Unemployed' })}
+    ${C('sourceOfFunds', 'Source of funds', ['Employment', 'Business', 'Other'], { other: 'Other', otherPh: 'e.g. Rental income, Dividends' })}
+    ${C('annualIncome', 'Annual income', ['Less than ₦3m', '₦3m – ₦10m', '₦10m – ₦50m', '₦50m and above'], { req: true })}
+  </div>
+  <div data-when="employmentStatus=Employed" hidden>
+    ${G('Employer')}
+    <div class="grid">${F('employerName', 'Name of employer', { req: true })}${F('employerAddress', 'Address of employer', { req: true })}</div>
+  </div>
+  <div data-when="employmentStatus=Self Employed" hidden>
+    ${G('Your business')}
+    <div class="grid">${F('businessName', 'Business name', { req: true })}${F('businessNature', 'Nature of business', { req: true, ph: 'e.g. Retail, Logistics' })}${F('businessAddress', 'Business address', { req: true, full: true })}</div>
+  </div>`;
+
+sec('product').innerHTML = head('C', 'Product & funding', 'Choose your product and how you intend to fund it.') + `
+  <div class="grid">
+    ${C('product', 'Product', ['Widestride Balanced Product', 'Others'], { multi: true, req: true, other: 'Others', otherPh: 'Name of product' })}
+    ${C('dividendOption', 'Dividend pay-out option', ['Reinvest', 'Credit designated account'], { req: true })}
+    ${C('fundingOption', 'Funding option', ['Lump Sum', 'Monthly', 'Quarterly', 'Others'], { other: 'Others', full: true, when: '@isCorp=No' })}
+    ${F('amount', 'Initial investment amount', { prefix: '₦', im: 'decimal', v: 'money', ph: '0.00' })}
+    <div></div>
+    ${C('fundingMode', 'Funding mode', ['Standing Payment Order', 'Cheques', 'Fund Transfers'], { when: '@isCorp=No' })}
+  </div>
+  <div data-when="@isCorp=No"><div data-when="fundingMode=Standing Payment Order" hidden>
+    ${G('Standing debit authorisation')}
+    <div class="note plain">${INFO}<span>I/We hereby authorise a monthly debit of my account in favour of <b>WIDESTRIDE INTERNATIONAL LIMITED</b> on the day and from the month stated below.</span></div>
+    <div class="grid">
+      ${F('sdaAccount', 'Account number to debit', { req: true, v: 'nuban', im: 'numeric', max: 10, ph: '10-digit NUBAN' })}
+      ${F('sdaCurrency', 'Currency', { type: 'select', opts: ['NGN (₦)', 'USD ($)'], req: true })}
+      ${F('sdaAmount', 'Monthly amount', { req: true, v: 'money', im: 'decimal', ph: '0.00' })}
+      ${F('sdaDay', 'Day of the month', { type: 'select', opts: Array.from({ length: 28 }, (_, i) => String(i + 1)), req: true })}
+      ${F('sdaStart', 'Starting month', { type: 'month', req: true })}
+    </div>
+  </div></div>`;
+
+sec('bank').innerHTML = head('D', 'Bank account details', 'Where your withdrawals and payouts will be sent.') + `
+  <div class="note">${INFO}<span>I/We hereby instruct WIDESTRIDE INTERNATIONAL LIMITED to transfer all payments due to my/our account below. This is your default bank account on record. Any change must be requested in writing from your registered email and is subject to verification.</span></div>
+  <div class="grid">
+    ${F('bankName', 'Bank name', { req: true, list: 'banks', ph: 'Start typing your bank' })}
+    ${F('accountNumber', 'Account number', { req: true, v: 'nuban', im: 'numeric', max: 10, ph: '10-digit NUBAN' })}
+    ${F('accountName', 'Account name', { req: true, hint: 'Must match the name on this application.' })}
+    ${F('bvn', 'Bank Verification Number (BVN)', { req: true, v: 'bvn', im: 'numeric', max: 11, ph: '11 digits', hint: 'Dial *565*0# on your registered line to check.', when: '@isCorp=No' })}
+  </div>`;
+
+const kin = (i, req) => `
+  <div class="kin"><div class="kin-head"><b>Next of kin ${i}</b><span class="pill ${req ? 'req' : ''}">${req ? 'Required' : 'Optional'}</span></div>
+  <div class="grid">
+    ${F(`nok${i}_name`, 'Full name', { req, ac: 'off', rl: `NOK ${i}: Name` })}
+    ${F(`nok${i}_relationship`, 'Relationship', { req, list: 'relations', rl: `NOK ${i}: Relationship` })}
+    ${C(`nok${i}_sex`, 'Sex', ['Male', 'Female'], { full: false, rl: `NOK ${i}: Sex` })}
+    ${F(`nok${i}_dob`, 'Date of birth', { type: 'date', rl: `NOK ${i}: Date of Birth` })}
+    ${F(`nok${i}_phone`, 'Phone number', { type: 'tel', req, v: 'phone', im: 'tel', rl: `NOK ${i}: Phone` })}
+    ${F(`nok${i}_email`, 'Email address', { type: 'email', v: 'email', rl: `NOK ${i}: Email` })}
+    ${F(`nok${i}_address`, 'Residential address', { type: 'textarea', full: true, rl: `NOK ${i}: Address` })}
+  </div></div>`;
+sec('kin').innerHTML = head('E', 'Next of kin', 'Who should we contact in an emergency?') + kin(1, true) + kin(2, false);
+
+sec('declare').innerHTML = head('F', 'Declarations & signature', 'Email indemnity, terms and conditions, and your signature.') + `
+  ${G('Email indemnity')}
+  <div class="indemnity">
+    <p>I/We the undersigned <span class="fill" id="indName">—</span> with e-mail address <span class="fill" id="indEmail">—</span>, who has/have an investment account with WIDESTRIDE INTERNATIONAL LIMITED in the name of <span class="fill" id="indAcct">—</span>, hereby authorise WIDESTRIDE INTERNATIONAL LIMITED to honour and effect any and all instructions/transactions relating to my account on the basis of my electronic mail (email).</p>
+    <p>I/We consent to indemnify the Company against any losses whatsoever suffered by myself/ourselves or the Company as a result of the Company acting on the basis of the stated email. Should I/We or the Company suffer any such loss, we shall be liable for the full amount of such loss.</p>
+    <p style="margin:0">I hereby consent that the provided e-mail will be my preferred means of communication.</p>
+  </div>
+  <div class="consents" style="margin-top:12px">
+    <div class="field" data-name="indemnityConsent" data-kind="check" data-req data-label="Email Indemnity Consent"><label class="consent"><input type="checkbox" name="indemnityConsent" value="Yes"><span>I agree to the <b>Email Indemnity</b> above.</span></label><small class="err"></small></div>
+  </div>
+
+  ${G('Definition — Politically Exposed Person')}
+  <details class="def"><summary>Who is a Politically Exposed Person (PEP)?</summary><div class="legal">
+    <p style="margin-top:12px">A Politically Exposed Person is an individual (including a spouse or immediate family member):</p>
+    <ol><li>who is or has been entrusted with prominent public functions by a foreign country, e.g. Heads of State or Government, senior politicians, senior government, judicial or military officials, senior executives of State-owned corporations and important political party officials;</li>
+    <li>who is or has been entrusted domestically with prominent public functions, e.g. Heads of State or of Government, senior politicians, senior government, judicial or military officials, senior executives of State-owned corporations and important political party officials; and</li>
+    <li>who is or has been entrusted with a prominent function by an international organisation, including members of senior management such as directors, deputy directors and members of the board or equivalent functions, other than middle-ranking or more junior individuals.</li></ol>
+  </div></details>
+
+  ${G('Terms and conditions')}
+  <div class="legal" tabindex="0">
+    <h4>Mandate</h4><p>The Client agrees that his/her mandate is subject to the Rules and Regulations of the Securities and Exchange Commission (SEC), the Investment and Securities Act 2007 and all other relevant Rules and Regulations covering the operations of Capital Market Operators.</p>
+    <h4>Non-disclosure</h4><p>The Client agrees to keep confidential information about the Company and its investment practices, and the Company in turn agrees not to divulge the Client's information to any third party except as required as part of performance of its duty or by law.</p>
+    <h4>Anti-Money Laundering</h4><p>The Client agrees that all his/her transactions will be subject to all relevant Anti-Money Laundering Laws and Regulations.</p>
+    <h4>Third Party Payment</h4><p>The Client agrees that payments of proceeds of investments from his/her account shall be made ONLY to the Client.</p>
+    <h4>Update</h4><p>The Client agrees to notify the Company immediately of any change in the details provided to the Company or, at the request of the Company, update his/her records. All notices and correspondence will be forwarded to the address on record until WIDESTRIDE INTERNATIONAL LIMITED receives written notification of the client's change of address.</p>
+    <h4>Account Statements</h4><p>The Client will receive a monthly statement of account and at any time on request. The Client undertakes to report any errors in the investment certificate issued within 3 (three) business days of receipt. Where no objection is raised within this period, the statement and investment certificate shall be deemed accepted by the Account Holder.</p>
+    <h4>Money Market Fund Account Holders</h4><p><span data-when="@isCorp=No">I/we am/are at least 18 years old. </span>I/we understand that due to the volatility of the stock market, the prices of quoted securities in the Mutual Fund may fluctuate, that past performance is not necessarily an indication of future performance, and that Mutual Funds are more suited to medium- to long-term investment. Short-term investors may not fully realise the value of their investments at liquidation or redemption.</p>
+    <h4>Data Protection</h4><p>I affirm that, in line with the relevant laws on Data Protection in Nigeria, I consent to the collection and processing of my personal data in the absence of any fraud, duress, undue influence or coercion, for the purpose of this account opening and other necessary processing arising therefrom, including the performance of the relationship between myself and WIDESTRIDE INTERNATIONAL LIMITED. I affirm that I have the requisite capacity to consent and that I am aware of my rights, including the right to request access, amendment, rectification, cancellation or destruction of my personal data, to lodge a complaint with the relevant authority, and to object to processing. I further consent to the processing of my personal data (within or outside Nigeria), including transfer to any third party for reasons associated with the purposes stated above, including data collection, processing and storage.</p>
+    <h4>Operation of Account</h4><p>The client agrees to safely operate the account and to assume full responsibility for safe custody of all print and electronic correspondence regarding the account, and to notify WIDESTRIDE INTERNATIONAL LIMITED immediately of any suspected unauthorised access. The client indemnifies WIDESTRIDE INTERNATIONAL LIMITED against any loss resulting from non-compliance. WIDESTRIDE INTERNATIONAL LIMITED is under no obligation to honour any withdrawal order unless there are sufficient funds in the account. No liability is accepted for funds handed to staff outside office hours or outside the Company's premises; the Company will communicate in writing the names of officers authorised to receive funds. In the absence of clear disposal instructions, the principal and income at maturity will be liquidated and may be held in a non-interest-bearing account pending further instructions. WIDESTRIDE INTERNATIONAL LIMITED shall not be liable for any loss arising from the operation of the investment unless caused or facilitated by the Company or its staff acting on its instruction.</p>
+    <h4>General</h4><p>I/we attest that all information provided herein is accurate and a true representation of my present status, and that the funds and source of such funds are legitimate and not directly or indirectly the proceeds of any unlawful activity.</p>
+  </div>
+  <div class="consents" style="margin-top:12px">
+    <div class="field" data-name="termsAccepted" data-kind="check" data-req data-label="Terms & Conditions Accepted"><label class="consent"><input type="checkbox" name="termsAccepted" value="Yes"><span>I have read and understood the <b>Terms and Conditions</b> and agree to be bound by them.</span></label><small class="err"></small></div>
+    <div class="field" data-name="dataConsent" data-kind="check" data-req data-label="Data Protection Consent"><label class="consent"><input type="checkbox" name="dataConsent" value="Yes"><span>I consent to the collection and processing of my personal data as described under <b>Data Protection</b>.</span></label><small class="err"></small></div>
+  </div>
+
+  ${G('Signature')}
+  <div class="grid">
+    ${F('signatoryName1', 'Authorised signatory', { req: true, hint: 'Full name of the person signing.' })}
+    ${F('signedDate', 'Date', { type: 'date', req: true })}
+    ${SIG('signature1', 'Signature — authorised signatory', { req: true })}
+    <div class="full" data-when="@needSig2=Yes" hidden>
+      <div class="grid">
+        ${F('signatoryName2', 'Authorised signatory (joint account)', { req: true, full: true })}
+        ${SIG('signature2', 'Signature — joint account holder', { req: true })}
+      </div>
+    </div>
+  </div>`;
+
+/* =========================================================
+   CORPORATE ACCOUNT sections
+   ========================================================= */
+function DOC(name, label, o = {}) {
+  return `<div class="field full" data-name="${name}" data-label="${esc(o.rl || label)}" data-kind="doc" ${o.req ? 'data-req' : ''} ${o.when ? `data-when="${o.when}" hidden` : ''}>
+    <label class="lbl">${label}${o.req ? REQ : ''}</label>
+    <div class="doc" data-doc="${name}" tabindex="0" role="button">
+      <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 18v-6M9 15l3-3 3 3"/></svg>
+      <div><b>${o.multi ? 'Choose file(s)' : 'Choose file'}</b><small>PDF, JPG or PNG · max 5MB each${o.multi ? ' · you can add several' : ''}</small></div>
+    </div>
+    <div class="doc-files" data-doc-list="${name}"></div>
+    <input type="file" accept="application/pdf,image/*" hidden data-doc-input="${name}" ${o.multi ? 'multiple' : ''}>
+    ${o.hint ? `<small class="hint">${o.hint}</small>` : ''}<small class="err"></small></div>`;
+}
+
+sec('co_company').innerHTML = head('A', 'Company details', 'Details of the entity, exactly as registered with the Corporate Affairs Commission.') + `
+  <div class="grid">
+    ${F('co_entityName', 'Full name of entity', { req: true, full: true, ac: 'organization' })}
+    ${F('co_rcNumber', 'RC / BN registration number', { req: true, ph: 'e.g. RC 1234567', rl: 'RC Registration No.' })}
+    ${F('co_businessNature', 'Nature of business', { req: true, ph: 'e.g. Logistics, Retail, Consulting' })}
+    ${C('co_entityType', 'Entity type', ['Plc / Ltd', 'Partnership', 'Sole Proprietorship', 'NGO', 'Others'], { req: true, other: 'Others', otherPh: 'e.g. Cooperative, Trust' })}
+    ${F('co_address', 'Operating / registered address', { type: 'textarea', req: true, full: true })}
+    ${F('co_phone', 'Telephone number', { type: 'tel', v: 'phone', im: 'tel', ph: '0803 000 0000' })}
+    ${F('co_email', 'Official email address', { type: 'email', v: 'email', req: true, ph: 'accounts@company.com', hint: 'Used for statements and email instructions.' })}
+    ${F('co_website', 'Official website', { full: true, ph: 'https://' })}
+  </div>`;
+
+sec('co_turnover').innerHTML = head('B', 'Annual turnover & investment purpose', 'Helps us confirm the source of funds in line with regulation.') + `
+  <div class="grid">
+    ${C('co_annualIncome', 'Annual income / turnover', ['Less than ₦10m', '₦10m – ₦50m', '₦50m – ₦100m', '₦100m – ₦250m', '₦250m and above'], { req: true })}
+    ${F('co_sourceOfFunds', 'Source of investment fund', { full: true, ph: 'e.g. Operating revenue, retained earnings' })}
+    ${F('co_purpose', 'Purpose of investment', { type: 'textarea', full: true, ph: 'e.g. Treasury management, capital preservation' })}
+  </div>`;
+
+const SIG_ALTS = { 1: '1|2|3|4', 2: '2|3|4', 3: '3|4', 4: '4' };
+function signatory(i) {
+  const p = `co_s${i}_`, L = t => `Signatory ${i}: ${t}`;
+  return `
+  <div class="kin" data-when="co_sigCount=${SIG_ALTS[i]}" ${i > 1 ? 'hidden' : ''}>
+    <div class="kin-head"><b>Signatory ${i}</b><span class="pill req">F${i}</span></div>
+    <div class="media-row">
+      ${PHOTO(p + 'photo', L('Passport photograph'), { req: true }).replace('>Signatory ' + i + ': Passport photograph<', '>Passport photograph<')}
+      <div class="grid">
+        ${C(p + 'title', 'Title', TITLES, { other: 'Others', rl: L('Title') })}
+        ${F(p + 'surname', 'Surname', { req: true, ac: 'off', rl: L('Surname') })}
+        ${F(p + 'firstName', 'First name', { req: true, ac: 'off', rl: L('First Name') })}
+      </div>
+    </div>
+    <div class="grid" style="margin-top:16px">
+      ${F(p + 'otherNames', 'Other names', { ac: 'off', rl: L('Other Names') })}
+      ${F(p + 'designation', 'Designation in the organisation', { req: true, ph: 'e.g. Managing Director', rl: L('Designation') })}
+      ${C(p + 'gender', 'Gender', ['Male', 'Female'], { req: true, full: false, rl: L('Gender') })}
+      ${F(p + 'dob', 'Date of birth', { type: 'date', req: true, v: 'adult', rl: L('Date of Birth') })}
+      ${F(p + 'address', 'Residential address', { type: 'textarea', req: true, full: true, rl: L('Residential Address') })}
+      ${F(p + 'phone', 'Mobile phone number', { type: 'tel', req: true, v: 'phone', im: 'tel', rl: L('Mobile Phone') })}
+      ${F(p + 'email', 'Email address', { type: 'email', v: 'email', rl: L('Email') })}
+      ${F(p + 'mothersMaiden', "Mother's maiden name", { req: true, ac: 'off', rl: L("Mother's Maiden Name") })}
+      ${F(p + 'nationality', 'Nationality', { list: 'nations', ph: 'e.g. Nigerian', rl: L('Nationality') })}
+      ${F(p + 'idType', 'ID type', { type: 'select', opts: IDS, rl: L('ID Type') })}
+      ${F(p + 'idNumber', 'ID number', { ac: 'off', rl: L('ID Number') })}
+      ${F(p + 'bvn', 'Bank Verification Number (BVN)', { req: true, v: 'bvn', im: 'numeric', max: 11, ph: '11 digits', rl: L('BVN') })}
+      ${C(p + 'class', 'Class for signing', ['Class A', 'Class B', 'Class C'], { req: true, full: false, rl: L('Class for Signing') })}
+      ${C(p + 'pep', 'Politically Exposed Person?', ['Yes', 'No'], { req: true, rl: L('PEP?'), hint: 'See the PEP definition on the Declarations step.' })}
+      ${F(p + 'pepDetails', 'If yes, please provide details', { type: 'textarea', full: true, req: true, when: p + 'pep=Yes', rl: L('PEP Details') })}
+      ${SIG(p + 'specimen', 'Specimen signature', { req: true }).replace(`data-label="Specimen signature"`, `data-label="${L('Specimen Signature')}"`)}
+    </div>
+  </div>`;
+}
+sec('co_signatories').innerHTML = head('F', 'Authorised signatories', 'Personal information for each person authorised to sign on the account.') + `
+  <div class="grid">${C('co_sigCount', 'How many authorised signatories?', ['1', '2', '3', '4'], { req: true, rl: 'Number of Signatories', hint: 'Up to four signatories can be added here. For more, attach a list in the Documents step.' })}</div>
+  <div style="margin-top:18px">${[1, 2, 3, 4].map(signatory).join('')}</div>
+  ${G('G · Signing mandate')}
+  <div class="grid">${C('co_mandate', 'Signing mandate (signing rule) for this account', ['Any one to sign', 'Any two to sign', 'All signatories to sign', 'Class A and Class B to sign', 'Class A to sign alone', 'Others'], { req: true, other: 'Others', otherPh: 'Describe the signing rule', rl: 'Signing Mandate' })}</div>`;
+document.querySelector('[name="co_sigCount"][value="2"]').checked = true;
+
+const CONTACT_KEYS = ['title', 'surname', 'firstName', 'otherNames', 'designation', 'gender', 'address', 'phone', 'email', 'mothersMaiden', 'idType', 'idNumber', 'dob', 'nationality'];
+sec('co_contact').innerHTML = head('H', 'Primary contact person', 'The person we should contact about this account.') + `
+  <div class="copy-row"><button type="button" class="link-btn" id="copyS1">Same as Signatory 1</button></div>
+  <div class="grid">
+    ${C('co_c_title', 'Title', TITLES, { other: 'Others', rl: 'Contact: Title' })}
+    ${F('co_c_surname', 'Surname', { req: true, ac: 'off', rl: 'Contact: Surname' })}
+    ${F('co_c_firstName', 'First name', { req: true, ac: 'off', rl: 'Contact: First Name' })}
+    ${F('co_c_otherNames', 'Other names', { ac: 'off', rl: 'Contact: Other Names' })}
+    ${F('co_c_designation', 'Designation in the organisation', { req: true, rl: 'Contact: Designation' })}
+    ${C('co_c_gender', 'Gender', ['Male', 'Female'], { req: true, full: false, rl: 'Contact: Gender' })}
+    ${F('co_c_dob', 'Date of birth', { type: 'date', req: true, v: 'adult', rl: 'Contact: Date of Birth' })}
+    ${F('co_c_address', 'Residential address', { type: 'textarea', req: true, full: true, rl: 'Contact: Residential Address' })}
+    ${F('co_c_phone', 'Mobile phone number', { type: 'tel', req: true, v: 'phone', im: 'tel', rl: 'Contact: Mobile Phone' })}
+    ${F('co_c_email', 'Email address', { type: 'email', req: true, v: 'email', rl: 'Contact: Email' })}
+    ${F('co_c_mothersMaiden', "Mother's maiden name", { req: true, ac: 'off', rl: "Contact: Mother's Maiden Name" })}
+    ${F('co_c_nationality', 'Nationality', { list: 'nations', rl: 'Contact: Nationality' })}
+    ${F('co_c_idType', 'ID type', { type: 'select', opts: IDS, rl: 'Contact: ID Type' })}
+    ${F('co_c_idNumber', 'ID number', { ac: 'off', rl: 'Contact: ID Number' })}
+  </div>`;
+
+sec('co_resolution').innerHTML = head('I', 'Board resolution', 'Authorises the account, its signatories and the signing mandate. Not required for sole proprietorships.') + `
+  <div class="note">${INFO}<span>The resolution below is completed and signed electronically. If you also have a signed copy on your letterhead, you can upload it in the Documents step.</span></div>
+  <div class="grid">
+    ${C('res_body', 'Resolution passed by the', ['Board of Directors', 'Partners', 'Board of Trustees'], { req: true, rl: 'Resolution: Passed By' })}
+    ${F('res_date', 'Date of meeting', { type: 'date', req: true, rl: 'Resolution: Meeting Date' })}
+    ${F('res_venue', 'Venue of meeting', { req: true, ph: 'e.g. Head office, Lagos', rl: 'Resolution: Venue' })}
+    ${F('res_accountType', 'Account to be opened', { req: true, ph: 'e.g. Investment / Money Market', rl: 'Resolution: Account Type' })}
+  </div>
+  ${G('Resolution')}
+  <div class="indemnity" id="resPreview"></div>
+  ${G('Signed by')}
+  <div class="grid">
+    ${F('res_directorName', 'Director / Trustee / Partner', { req: true, rl: 'Resolution: Director/Trustee/Partner' })}
+    ${F('res_secretaryName', 'Secretary', { req: true, rl: 'Resolution: Secretary' })}
+    ${SIG('res_directorSig', 'Signature — Director / Trustee / Partner', { req: true })}
+    ${SIG('res_secretarySig', 'Signature — Secretary', { req: true })}
+  </div>`;
+
+sec('co_docs').innerHTML = head('✓', 'Supporting documents', 'Upload clear scans or photos of the documents on the account opening checklist.') + `
+  <div class="note">${INFO}<span>PDF, JPG or PNG, up to 5MB each. Originals or certified copies may be requested by your relationship officer.</span></div>
+  ${G('Entity documents')}
+  <div class="grid">
+    ${DOC('doc_cert', 'Certificate of Incorporation / Registration', { req: true })}
+    ${DOC('doc_cac', 'CAC forms: Form CAC 1.1 (from 2017) or Forms CAC 2 & 7 (before 2017)', { req: true, multi: true, rl: 'CAC Forms' })}
+    ${DOC('doc_memart', 'Memorandum & Articles of Association / Constitution / Bye-laws', { hint: 'Not applicable to sole proprietorships.', rl: 'MEMART / Constitution' })}
+    ${DOC('doc_resolution', 'Signed board resolution on company letterhead', { hint: 'Optional. The resolution was already captured in step I.', rl: 'Board Resolution (Letterhead)' })}
+  </div>
+  ${G('Signatories')}
+  <div class="grid">
+    ${DOC('doc_sigIds', 'Means of identification: all signatories', { req: true, multi: true, hint: "Passport, driver's licence, NIN slip or voter's card.", rl: 'Signatories: ID' })}
+    ${DOC('doc_sigAddress', 'Proof of address: all signatories', { req: true, multi: true, hint: 'Utility bill (≤ 3 months old), tenancy agreement, bank statement, etc.', rl: 'Signatories: Proof of Address' })}
+  </div>
+  ${G('Directors / proprietor / trustees')}
+  <div class="grid">
+    ${DOC('doc_dirPhotos', 'Passport photographs', { multi: true, rl: 'Directors: Passport Photos' })}
+    ${DOC('doc_dirIds', 'Means of identification', { multi: true, rl: 'Directors: ID' })}
+    ${DOC('doc_dirAddress', 'Proof of address', { multi: true, rl: 'Directors: Proof of Address' })}
+  </div>
+  ${G('Funding')}
+  <div class="grid">${DOC('doc_deposit', 'Evidence of initial deposit', { hint: 'Deposit slip or screenshot of the transfer.', rl: 'Evidence of Initial Deposit' })}</div>`;
+
+const isCorp = () => acctType() === 'Corporate Account';
+const sigCount = () => +valOf('co_sigCount') || 1;
+const VIRTUAL = {
+  isCorp: () => isCorp() ? 'Yes' : 'No',
+  needSig2: () => (acctType() === 'Joint Account' || (isCorp() && sigCount() >= 2)) ? 'Yes' : 'No'
+};
+
+function sigNames() {
+  return Array.from({ length: sigCount() }, (_, i) => fullName(`co_s${i + 1}_`)).filter(Boolean);
+}
+function renderResolution() {
+  const fill = v => `<span class="fill">${esc(v) || '&nbsp;'}</span>`;
+  const d = valOf('res_date') ? new Date(valOf('res_date')) : null;
+  const day = d ? d.getDate() : '', mon = d ? d.toLocaleString('en-GB', { month: 'long' }) : '', yr = d ? d.getFullYear() : '';
+  const rows = Array.from({ length: sigCount() }, (_, i) => {
+    const p = `co_s${i + 1}_`, sg = files[p + 'specimen'];
+    return `<tr><td>${'abcd'[i]}.</td><td>${esc(fullName(p)) || '—'}</td><td>${sg ? `<img src="${sg.url}" alt="">` : '—'}</td><td>${esc(valOf(p + 'class')) || '—'}</td></tr>`;
+  }).join('');
+  $('#resPreview').innerHTML = `
+    <p>At the meeting of the ${fill(valOf('res_body') || 'Board of Directors / Partners / Board of Trustees')} of ${fill(valOf('co_entityName'))} held on the ${fill(day)} day of ${fill(mon)}, ${fill(yr)} at ${fill(valOf('res_venue'))}, the following resolutions were duly proposed and passed:</p>
+    <p>1. That the Company/Partnership/Association should open a ${fill(valOf('res_accountType'))} account with WIDESTRIDE INTERNATIONAL LIMITED as per the terms and conditions contained, and as may from time to time be contained, in WIDESTRIDE INTERNATIONAL LIMITED's Account Opening Forms and policies for the said account.</p>
+    <p>2. That in furtherance of the above, the following persons are hereby authorised to execute all relevant documents on behalf of the company, operate the account and serve as the signatories to the account as specified in the account opening mandate:</p>
+    <table class="sigtable"><thead><tr><th></th><th>Name</th><th>Signature specimen</th><th>Class</th></tr></thead><tbody>${rows}</tbody></table>
+    <p style="margin:0">3. The signing mandate shall be ${fill(merged('co_mandate'))} to sign on behalf of the Company/Partnership/Association.</p>`;
+}
+sec('co_resolution').addEventListener('input', renderResolution);
+sec('co_resolution').addEventListener('change', renderResolution);
+
+$('#copyS1').onclick = () => {
+  CONTACT_KEYS.forEach(k => {
+    const src = form.querySelectorAll(`[name="co_s1_${k}"]`), dst = form.querySelectorAll(`[name="co_c_${k}"]`);
+    if (!src.length || !dst.length) return;
+    if (src[0].type === 'radio') { const v = valOf(`co_s1_${k}`); dst.forEach(d => d.checked = d.value === v); }
+    else dst[0].value = src[0].value;
+  });
+  const o1 = form.querySelector('[name="co_s1_title__other"]'), o2 = form.querySelector('[name="co_c_title__other"]');
+  if (o1 && o2) o2.value = o1.value;
+  applyConditions();
+  $$('.field', sec('co_contact')).forEach(f => f.classList.remove('invalid'));
+  toast('Copied from Signatory 1. Add the designation and email if missing.');
+};
+
+/* =========================================================
+   State, conditions, navigation
+   ========================================================= */
+const IND = () => !isCorp(), CORP = () => isCorp();
+const STEPS = [
+  { id: 'type', title: 'Account type', code: '' },
+  { id: 'personal', title: 'Personal details', code: 'A', show: IND },
+  { id: 'minor', title: 'Minor details', code: 'A1', show: () => acctType() === 'Minor Account' },
+  { id: 'joint', title: 'Joint holder', code: 'A2', show: () => acctType() === 'Joint Account' },
+  { id: 'employment', title: 'Employment', code: 'B', show: IND },
+  { id: 'co_company', title: 'Company details', code: 'A', show: CORP },
+  { id: 'co_turnover', title: 'Turnover & purpose', code: 'B', show: CORP },
+  { id: 'product', title: 'Product & funding', code: 'C' },
+  { id: 'bank', title: 'Bank details', code: 'D' },
+  { id: 'kin', title: 'Next of kin', code: 'E', show: IND },
+  { id: 'co_signatories', title: 'Signatories & mandate', code: 'F–G', show: CORP },
+  { id: 'co_contact', title: 'Primary contact', code: 'H', show: CORP },
+  { id: 'co_resolution', title: 'Board resolution', code: 'I', show: () => isCorp() && valOf('co_entityType') !== 'Sole Proprietorship' },
+  { id: 'co_docs', title: 'Documents', code: '', show: CORP },
+  { id: 'declare', title: 'Declarations', code: () => isCorp() ? 'E' : 'F' },
+  { id: 'review', title: 'Review & submit', code: '' }
+];
+const codeOf = s => typeof s.code === 'function' ? s.code() : s.code;
+const files = {};          // name -> {name, mime, data(base64), url(dataURL)}
+let cur = 0, maxReached = 0;
+
+const form = $('#form');
+const acctType = () => (form.querySelector('input[name="accountType"]:checked') || {}).value || '';
+const activeSteps = () => STEPS.filter(s => !s.show || s.show());
+const inActiveStep = el => activeSteps().some(s => s.id === el.closest('section').dataset.step);
+
+function valOf(name) {
+  if (name[0] === '@') return VIRTUAL[name.slice(1)]();
+  const els = form.querySelectorAll(`[name="${name}"]`);
+  if (!els.length) return '';
+  const e = els[0];
+  if (e.type === 'radio') return (form.querySelector(`[name="${name}"]:checked`) || {}).value || '';
+  if (e.type === 'checkbox') return [...form.querySelectorAll(`[name="${name}"]:checked`)].map(x => x.value);
+  return e.value.trim();
+}
+
+function applyConditions() {
+  $$('[data-when]').forEach(el => {
+    const m = el.dataset.when.match(/^(@?\w+)(!?=)(.*)$/);
+    const v = valOf(m[1]), alts = m[3].split('|');
+    let on = alts.some(a => Array.isArray(v) ? v.includes(a) : v === a);
+    if (m[2] === '!=') on = !on;
+    el.hidden = !on;
+  });
+  // headings for minor accounts
+  const minor = acctType() === 'Minor Account';
+  $('#aTitle').textContent = minor ? 'Parent / guardian details' : 'Personal details';
+  $('#aSub').textContent = minor ? "Details of the parent or guardian opening this account for a minor." : 'Tell us about yourself, exactly as it appears on your ID.';
+  STEPS[1].title = minor ? 'Guardian details' : 'Personal details';
+}
+
+function renderStepper() {
+  const act = activeSteps();
+  $('#stepList').innerHTML = act.map((s, i) => {
+    const cls = i === cur ? 'current' : i <= maxReached ? 'done' : '';
+    return `<li class="${cls}" data-i="${i}"><span class="dot">${i < cur || (i <= maxReached && i !== cur) ? '✓' : i + 1}</span>${s.title}<span class="code">${codeOf(s)}</span></li>`;
+  }).join('');
+  const pct = Math.round((cur / (act.length - 1)) * 100);
+  $('#bar').style.width = pct + '%';
+  $('#mBar').style.width = pct + '%';
+  $('#mLabel').textContent = `Step ${cur + 1} of ${act.length} · ${act[cur].title}`;
+  $('#mPct').textContent = pct + '%';
+}
+
+function show(i, focus = true) {
+  const act = activeSteps();
+  cur = Math.max(0, Math.min(i, act.length - 1));
+  maxReached = Math.max(maxReached, cur);
+  STEPS.forEach(s => sec(s.id).hidden = true);
+  sec(act[cur].id).hidden = false;
+  $('#backBtn').style.visibility = cur === 0 ? 'hidden' : 'visible';
+  const last = cur === act.length - 1;
+  $('#nextBtn').innerHTML = last ? 'Submit application<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : 'Continue<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
+  $('#nextBtn').classList.toggle('go', last);
+  const code = codeOf(act[cur]);
+  $('#navInfo').textContent = code ? `Section ${code}` : '';
+  if (code) { const sc = $('.step-code', sec(act[cur].id)); if (sc) sc.textContent = code; }
+  if (act[cur].id === 'declare') fillIndemnity();
+  if (act[cur].id === 'co_resolution') { renderResolution(); const d = $('#res_directorName'); if (!d.value) d.value = fullName('co_s1_'); }
+  if (act[cur].id === 'review') buildReview();
+  setTimeout(sizeSigs, 20);
+  renderStepper();
+  if (focus) $('#app').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$('#stepList').addEventListener('click', e => {
+  const li = e.target.closest('li.done'); if (!li) return;
+  const to = +li.dataset.i;
+  if (to < cur || validateStep()) show(to);
+});
+$('#backBtn').onclick = () => show(cur - 1);
+$('#nextBtn').onclick = () => {
+  const act = activeSteps();
+  if (act[cur].id === 'review') return submit();
+  if (!validateStep()) return toast('Please fix the highlighted fields.', true);
+  show(cur + 1);
+};
+
+form.addEventListener('input', e => {
+  const f = e.target.closest('.field'); if (f) f.classList.remove('invalid');
+  // digits only for number-ish fields
+  if (e.target.inputMode === 'numeric') e.target.value = e.target.value.replace(/\D/g, '');
+});
+form.addEventListener('change', e => {
+  applyConditions();
+  if (e.target.name === 'accountType' || e.target.name === 'co_entityType') { if (e.target.name === 'accountType') maxReached = 0; maxReached = Math.min(maxReached, activeSteps().length - 1); renderStepper(); }
+  setTimeout(sizeSigs, 20);
+  const f = e.target.closest('.field'); if (f) f.classList.remove('invalid');
+});
+$$('[data-v="money"] input').forEach(i => i.addEventListener('blur', () => {
+  const n = parseFloat(i.value.replace(/[^\d.]/g, ''));
+  i.value = isNaN(n) ? '' : n.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}));
+
+/* =========================================================
+   Validation
+   ========================================================= */
+function ageOn(dobStr) {
+  const d = new Date(dobStr), t = new Date();
+  let a = t.getFullYear() - d.getFullYear();
+  if (t.getMonth() < d.getMonth() || (t.getMonth() === d.getMonth() && t.getDate() < d.getDate())) a--;
+  return a;
+}
+// active = not switched off by a condition (the step <section> itself may be hidden)
+const isActive = el => { for (let n = el; n && n !== form; n = n.parentElement) if (n.hidden && n.tagName !== 'SECTION') return false; return true; };
+
+function checkField(f) {
+  const name = f.dataset.name, kind = f.dataset.kind || 'input';
+  let v, msg = '';
+  if (kind === 'photo' || kind === 'sig') v = files[name] ? 'x' : '';
+  else if (kind === 'doc') v = files[name] && files[name].length ? 'x' : '';
+  else if (kind === 'check') v = form.querySelector(`[name="${name}"]`).checked ? 'Yes' : '';
+  else v = valOf(name);
+  const empty = Array.isArray(v) ? !v.length : !v;
+
+  if (f.hasAttribute('data-req') && empty) {
+    msg = kind === 'doc' ? 'Please upload this document.' : kind === 'photo' ? 'Please upload a passport photograph.' : kind === 'sig' ? 'Please sign in the box above.' :
+      kind === 'check' ? 'Please tick to confirm.' : (kind === 'radio' || kind === 'multi') ? 'Please choose an option.' : 'This field is required.';
+  } else if (!empty) {
+    const vv = String(v).replace(/\s/g, '');
+    switch (f.dataset.v) {
+      case 'email': if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)) msg = 'Enter a valid email address.'; break;
+      case 'phone': if (!/^\+?\d{10,15}$/.test(vv.replace(/[-()]/g, ''))) msg = 'Enter a valid phone number, e.g. 08030000000.'; break;
+      case 'bvn': if (!/^\d{11}$/.test(vv)) msg = 'BVN must be exactly 11 digits.'; break;
+      case 'nuban': if (!/^\d{10}$/.test(vv)) msg = 'Account number must be 10 digits.'; break;
+      case 'adult': { const a = ageOn(v); if (isNaN(a) || a < 18 || a > 120) msg = 'Account holders must be at least 18 years old.'; break; }
+      case 'minor': { const a = ageOn(v); if (isNaN(a) || a < 0 || a >= 18) msg = 'A minor must be under 18 years old.'; break; }
+    }
+  }
+  // "Others" chip requires the text
+  if (!msg && (kind === 'radio' || kind === 'multi')) {
+    const o = f.querySelector('.other');
+    if (o && !o.hidden && !o.querySelector('input').value.trim()) msg = 'Please specify.';
+  }
+  const err = f.querySelector('.err');
+  if (msg) { f.classList.add('invalid'); if (err) err.textContent = msg; return false; }
+  f.classList.remove('invalid'); return true;
+}
+
+function validateStep() {
+  const s = sec(activeSteps()[cur].id);
+  let ok = true, first = null;
+  $$('.field[data-name]', s).filter(isActive).forEach(f => { if (!checkField(f)) { ok = false; first = first || f; } });
+  if (s.dataset.step === 'bank' && ok) { /* nothing extra */ }
+  if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return ok;
+}
+
+/* =========================================================
+   Photos (compressed client-side) & signatures
+   ========================================================= */
+function readImage(file, maxW, cb) {
+  if (!file || !/^image\//.test(file.type)) return toast('Please choose an image file (JPG or PNG).', true);
+  if (file.size > 12 * 1024 * 1024) return toast('That image is too large (max 12MB).', true);
+  const fr = new FileReader();
+  fr.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, maxW / img.width);
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+      cb(c.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+function setFile(name, dataUrl, fname) {
+  const mime = dataUrl.slice(5, dataUrl.indexOf(';'));
+  files[name] = { name: fname, mime, data: dataUrl.split(',')[1], url: dataUrl };
+}
+
+$$('[data-photo]').forEach(box => {
+  const name = box.dataset.photo, input = $(`[data-photo-input="${name}"]`);
+  const load = file => readImage(file, 700, url => {
+    setFile(name, url, name + '.jpg');
+    box.innerHTML = `<img src="${url}" alt=""><span class="swap">Change photo</span>`;
+    box.closest('.field').classList.remove('invalid');
+  });
+  box.onclick = () => input.click();
+  box.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } };
+  input.onchange = () => load(input.files[0]);
+  box.ondragover = e => { e.preventDefault(); box.classList.add('drag'); };
+  box.ondragleave = () => box.classList.remove('drag');
+  box.ondrop = e => { e.preventDefault(); box.classList.remove('drag'); load(e.dataTransfer.files[0]); };
+});
+
+const pads = {};
+$$('canvas[data-sig]').forEach(cv => {
+  const name = cv.dataset.sig, ctx = cv.getContext('2d');
+  const pad = pads[name] = { cv, ctx, drawn: false, last: null };
+  const pos = e => { const r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); pad.last = pos(e); ctx.beginPath(); ctx.arc(pad.last.x, pad.last.y, 1.1, 0, 7); ctx.fill(); });
+  cv.addEventListener('pointermove', e => {
+    if (!pad.last) return;
+    const p = pos(e); ctx.beginPath(); ctx.moveTo(pad.last.x, pad.last.y); ctx.lineTo(p.x, p.y); ctx.stroke(); pad.last = p; pad.drawn = true;
+  });
+  const end = () => { if (pad.last && pad.drawn) { setFile(name, cv.toDataURL('image/png'), name + '.png'); cv.closest('.field').classList.remove('invalid'); } pad.last = null; };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end); cv.addEventListener('pointerleave', end);
+  $(`[data-sig-clear="${name}"]`).onclick = () => { sizeSig(pad, true); delete files[name]; pad.drawn = false; };
+  const up = $(`[data-sig-input="${name}"]`);
+  $(`[data-sig-upload="${name}"]`).onclick = () => up.click();
+  up.onchange = () => readImage(up.files[0], 900, url => {
+    const im = new Image(); im.onload = () => {
+      sizeSig(pad, true);
+      const r = cv.getBoundingClientRect(), s = Math.min(r.width / im.width, r.height / im.height) * .9;
+      ctx.drawImage(im, (r.width - im.width * s) / 2, (r.height - im.height * s) / 2, im.width * s, im.height * s);
+      pad.drawn = true; setFile(name, cv.toDataURL('image/png'), name + '.png'); cv.closest('.field').classList.remove('invalid');
+    }; im.src = url;
+  });
+});
+function sizeSig(pad, clear) {
+  const r = pad.cv.getBoundingClientRect(); if (!r.width) return;
+  const d = window.devicePixelRatio || 1;
+  if (!clear && pad.cv.width === Math.round(r.width * d)) return;
+  const keep = pad.drawn && !clear ? pad.cv.toDataURL() : null;
+  pad.cv.width = Math.round(r.width * d); pad.cv.height = Math.round(r.height * d);
+  pad.ctx.setTransform(d, 0, 0, d, 0, 0);
+  pad.ctx.lineWidth = 2.2; pad.ctx.lineCap = 'round'; pad.ctx.lineJoin = 'round'; pad.ctx.strokeStyle = '#0B1F1A'; pad.ctx.fillStyle = '#0B1F1A';
+  if (keep) { const im = new Image(); im.onload = () => pad.ctx.drawImage(im, 0, 0, r.width, r.height); im.src = keep; }
+}
+function sizeSigs() { Object.values(pads).forEach(p => sizeSig(p)); }
+window.addEventListener('resize', sizeSigs);
+
+/* ---------- supporting documents ---------- */
+function renderDocList(name) {
+  $(`[data-doc-list="${name}"]`).innerHTML = (files[name] || []).map((x, i) =>
+    `<span><em>${esc(x.name)}</em>${Math.max(1, Math.round(x.data.length * 0.75 / 1024))}KB<button type="button" data-doc-rm="${name}" data-i="${i}" aria-label="Remove">×</button></span>`).join('');
+}
+function addDoc(name, file, multi) {
+  if (!file) return;
+  if (!/^image\/|^application\/pdf$/.test(file.type)) return toast('Only PDF, JPG or PNG files are accepted.', true);
+  const push = (url, fname) => {
+    const entry = { name: fname, mime: url.slice(5, url.indexOf(';')), data: url.split(',')[1], url };
+    files[name] = multi ? (files[name] || []).concat(entry) : [entry];
+    renderDocList(name); $(`.field[data-name="${name}"]`).classList.remove('invalid');
+  };
+  if (file.type === 'application/pdf') {
+    if (file.size > 5 * 1024 * 1024) return toast(`${file.name} is larger than 5MB.`, true);
+    const fr = new FileReader(); fr.onload = () => push(fr.result, file.name); fr.readAsDataURL(file);
+  } else readImage(file, 1600, url => push(url, file.name.replace(/\.\w+$/, '') + '.jpg'));
+}
+$$('[data-doc]').forEach(box => {
+  const name = box.dataset.doc, input = $(`[data-doc-input="${name}"]`), multi = input.multiple;
+  box.onclick = () => input.click();
+  box.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } };
+  input.onchange = () => { [...input.files].forEach(f => addDoc(name, f, multi)); input.value = ''; };
+  box.ondragover = e => { e.preventDefault(); box.classList.add('drag'); };
+  box.ondragleave = () => box.classList.remove('drag');
+  box.ondrop = e => { e.preventDefault(); box.classList.remove('drag'); [...e.dataTransfer.files].forEach(f => addDoc(name, f, multi)); };
+});
+form.addEventListener('click', e => {
+  const b = e.target.closest('[data-doc-rm]'); if (!b) return;
+  files[b.dataset.docRm].splice(+b.dataset.i, 1); renderDocList(b.dataset.docRm);
+});
+
+/* =========================================================
+   Indemnity auto-fill, review, collect, submit
+   ========================================================= */
+function fullName(p = '') { return [valOf(p + 'surname'), valOf(p + 'firstName'), valOf(p + 'otherNames')].filter(Boolean).join(' '); }
+function fillIndemnity() {
+  if (isCorp()) {
+    const n = sigNames();
+    $('#indName').textContent = n.length > 1 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : (n[0] || '—');
+    $('#indEmail').textContent = valOf('co_email') || '—';
+    $('#indAcct').textContent = valOf('co_entityName') || '—';
+    const a = $('#signatoryName1'); if (!a.value) a.value = fullName('co_s1_');
+    const b = $('#signatoryName2'); if (sigCount() >= 2 && !b.value) b.value = fullName('co_s2_');
+    const t = $('#signedDate'); if (!t.value) t.value = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+    return;
+  }
+  const joint = acctType() === 'Joint Account', minor = acctType() === 'Minor Account';
+  const names = joint ? `${fullName()} and ${fullName('j_')}` : fullName();
+  const acct = minor ? `${fullName()} ITF ${[valOf('minorSurname'), valOf('minorFirstName')].filter(Boolean).join(' ')}` : names;
+  $('#indName').textContent = names || '—';
+  $('#indEmail').textContent = valOf('email') || '—';
+  $('#indAcct').textContent = acct || '—';
+  const s1 = $('#signatoryName1'); if (!s1.value) s1.value = fullName();
+  const s2 = $('#signatoryName2'); if (joint && !s2.value) s2.value = fullName('j_');
+  const dt = $('#signedDate'); if (!dt.value) dt.value = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+}
+
+function displayVal(f) {
+  const name = f.dataset.name, kind = f.dataset.kind;
+  if (kind === 'photo' || kind === 'sig') return files[name] ? `<img src="${files[name].url}" alt="">` : '';
+  if (kind === 'doc') return (files[name] || []).map(x => esc(x.name)).join('<br>');
+  if (kind === 'check') return form.querySelector(`[name="${name}"]`).checked ? 'Yes' : '';
+  return esc(merged(name));
+}
+function merged(name) {
+  let v = valOf(name);
+  const o = form.querySelector(`[name="${name}__other"]`);
+  const ot = o && isActive(o) ? o.value.trim() : '';
+  if (Array.isArray(v)) v = v.map(x => (ot && (x === 'Others' || x === 'Other')) ? `${x}: ${ot}` : x).join(', ');
+  else if (ot && (v === 'Others' || v === 'Other')) v = `${v}: ${ot}`;
+  if (name === 'amount' && v) v = '₦' + v;
+  return v;
+}
+
+function buildReview() {
+  const act = activeSteps();
+  $('#reviewBody').innerHTML = act.map((s, i) => {
+    if (s.id === 'review') return '';
+    const rows = $$('.field[data-name]', sec(s.id)).filter(isActive)
+      .map(f => [f.dataset.label, displayVal(f)]).filter(r => r[1]);
+    if (!rows.length) return '';
+    return `<div class="rv"><div class="rv-h"><b><i>${codeOf(s)}</i>${s.title}</b><button type="button" class="link-btn" data-edit="${i}">Edit</button></div>
+      <dl>${rows.map(r => `<div><dt>${esc(r[0])}</dt><dd>${r[1]}</dd></div>`).join('')}</dl></div>`;
+  }).join('') + `<div class="note">${INFO}<span>By submitting, you confirm that the information above is accurate and complete. You'll receive a reference number immediately.</span></div>`;
+  $$('[data-edit]').forEach(b => b.onclick = () => show(+b.dataset.edit));
+}
+
+function collect() {
+  const out = { accountType: acctType() };
+  activeSteps().forEach(s => {
+    $$('.field[data-name]', sec(s.id)).filter(isActive).forEach(f => {
+      const k = f.dataset.kind;
+      if (k === 'photo' || k === 'sig' || k === 'doc') return;
+      out[f.dataset.name] = k === 'check' ? (form.querySelector(`[name="${f.dataset.name}"]`).checked ? 'Yes' : 'No') : merged(f.dataset.name);
+    });
+  });
+  // derive a few sheet fields
+  const titleFix = p => { if (out[p + 'title']) out[p + 'title'] = out[p + 'title'].replace(/^Others: /, ''); };
+  titleFix(''); titleFix('j_'); [1, 2, 3, 4].forEach(i => titleFix(`co_s${i}_`)); titleFix('co_c_');
+  if (isCorp()) out.res_signatories = Array.from({ length: sigCount() }, (_, i) => `${'abcd'[i]}. ${fullName(`co_s${i + 1}_`)} (${valOf(`co_s${i + 1}_class`)})`).join('; ');
+  out.indemnityName = $('#indName').textContent;
+  out.indemnityEmail = $('#indEmail').textContent;
+  out.indemnityAccountName = $('#indAcct').textContent;
+  out.pepDefinitionAck = 'Yes';
+  out._hp = $('#website_hp').value;
+  if (out.fundingMode === 'Standing Payment Order') out.sdaAuthorised = 'Yes';
+  const up = {};
+  Object.keys(files).forEach(k => {
+    const f = $(`.field[data-name="${k}"]`);
+    if (!f || !isActive(f) || !inActiveStep(f)) return;
+    const pack = x => ({ name: x.name, mime: x.mime, data: x.data });
+    up[k] = Array.isArray(files[k]) ? files[k].map(pack) : pack(files[k]);
+  });
+  return { fields: out, files: up };
+}
+
+function setBusy(b) {
+  const n = $('#nextBtn'); n.disabled = b; $('#backBtn').disabled = b;
+  n.innerHTML = b ? '<span class="spin"></span>Submitting…' : 'Submit application<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+}
+function success(res) {
+  STEPS.forEach(s => sec(s.id).hidden = true);
+  $('.card-head').hidden = true; $('#nav').hidden = true; $('#done').hidden = false;
+  $('#refNo').textContent = res.refNo;
+  if (!valOf('email') && !valOf('co_email')) $('#doneMsg').textContent = 'Thank you. Your application has been received and will be reviewed by our team. Please keep your reference number.';
+  cur = activeSteps().length - 1; maxReached = cur; renderStepper(); $('#bar').style.width = '100%';
+  $$('#stepList li').forEach(li => { li.className = 'done'; li.querySelector('.dot').textContent = '✓'; });
+  $('#app').scrollIntoView({ behavior: 'smooth' });
+}
+function submit() {
+  const payload = collect();
+  const total = JSON.stringify(payload.files).length;
+  if (total > 40 * 1024 * 1024) return toast('Your uploads are too large in total (max ~30MB). Please compress some PDFs.', true);
+  setBusy(true);
+  const fail = msg => { setBusy(false); toast(msg || 'Submission failed. Please check your connection and try again.', true); };
+  if (/^https:\/\/script\.google(usercontent)?\.com\//.test(WEB_APP_URL)) {
+    // Hosted outside Apps Script (e.g. GitHub Pages): send to the web app with fetch.
+    // text/plain avoids a CORS pre-flight, which Apps Script does not support.
+    fetch(WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+      .then(r => r.json())
+      .then(res => { if (res && res.ok) { setBusy(false); success(res); } else fail(res && res.error); })
+      .catch(() => fail());
+  } else if (window.google && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(res => { setBusy(false); success(res); })
+      .withFailureHandler(err => { setBusy(false); toast((err && err.message) || 'Submission failed. Please try again.', true); })
+      .submitApplication(payload);
+  } else {
+    // Preview mode (opened outside Apps Script): simulate a successful save
+    console.log('PREVIEW payload', payload);
+    setTimeout(() => { setBusy(false); success({ refNo: 'WS-PREVIEW-0001' }); toast('Preview mode — deploy with Apps Script to save to Google Sheets.'); }, 900);
+  }
+}
+
+let tt;
+function toast(msg, bad) {
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
+  clearTimeout(tt); tt = setTimeout(() => t.className = 'toast', 3800);
+}
+
+applyConditions();
+show(0, false);
+</script>
+</body>
+</html>
